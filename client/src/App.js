@@ -1,0 +1,13 @@
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      
+        <h1>MERN-Redux-Auth-App</h1>
+     
+    </div>
+  );
+}
+
+export default App;
