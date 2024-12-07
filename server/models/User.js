@@ -54,10 +54,7 @@ UserSchema.pre('save', async function(next) {
 
 // Method to check password validity
 UserSchema.methods.isValidPassword = async function(candidatePassword) {
-  console.log(`saved password: ${this.password}`);
-  console.log(`user password: ${candidatePassword}`);
   const confirmPassword = await bcrypt.compare(candidatePassword, this.password)
-  console.log(confirmPassword);
   if(confirmPassword){
   return confirmPassword;
   }

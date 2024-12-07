@@ -9,11 +9,9 @@ const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   
   const user = await User.findOne({ email });
-  console.log(user);
 
   const isValidPassword = await user.isValidPassword(password)
   
-  console.log(isValidPassword);
   if (user && isValidPassword) {
     generateToken(res, user._id);
 
@@ -91,7 +89,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update user profile
-// @route   PUT /api/users/profile
+// @route   PUT /api/user/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
