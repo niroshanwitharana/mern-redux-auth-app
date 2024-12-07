@@ -5,8 +5,10 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Landing from './components/screens/Landing';
 import Profile from './components/screens/Profile';
+import ViewProfile from './components/screens/ViewProfile';
 import Navbar from './components/Layout/Navbar';
 import Home from './components/screens/Home'; // Import Home component
+import CssBaseline from '@mui/material/CssBaseline';
 
 const App = () => {
   const { user, loading } = useSelector(state => state.auth);
@@ -16,6 +18,7 @@ const App = () => {
 
   return (
     <>
+    <CssBaseline />
       <Navbar />
       <Routes>
         {/* Public Routes */}
@@ -25,6 +28,7 @@ const App = () => {
         {/* Protected Routes */}
         <Route path="/landing" element={user ? <Landing /> : <Navigate to="/login" />} />
         <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+        <Route path="/viewProfile" element={user ? <ViewProfile /> : <Navigate to="/login" />} />
 
         {/* Home Route */}
         <Route path="/home" element={<Home />} />
