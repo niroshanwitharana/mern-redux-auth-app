@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Container, 
   Typography, 
@@ -9,19 +10,21 @@ import {
   Button 
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadUser, logoutUser } from '../../redux/slices/authSlice';
+import { loadUser } from '../../redux/slices/authSlice';
 
 const Landing = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { user, loading, error } = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
-  };
+  // const handleLogout = () => {
+  //   dispatch(logoutUser());
+  // };
 
   if (loading) {
     return <Typography>Loading...</Typography>;
@@ -49,20 +52,20 @@ const Landing = () => {
             Welcome, {user?.name}!
           </Typography>
           <Box sx={{ mt: 2 }}>
-            <Typography variant="subtitle1">
+            {/* <Typography variant="subtitle1">
               Email: {user?.email}
-            </Typography>
+            </Typography> */}
             <Typography variant="body2" color="text.secondary">
               You have successfully logged in to your account.
             </Typography>
           </Box>
           <Button 
             variant="contained" 
-            color="secondary" 
+            color="primary" 
             sx={{ mt: 3 }} 
-            onClick={handleLogout}
+            onClick={() => navigate('/viewProfile')}
           >
-            Logout
+            View Profile Details
           </Button>
         </CardContent>
       </Card>

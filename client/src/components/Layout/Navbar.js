@@ -1,74 +1,96 @@
-import React, { useEffect } from 'react';
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography,                   
-  Button, 
-  Box, 
-  IconButton 
+import React, { useState } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser, loadUser } from '../../redux/slices/authSlice';
+import { logoutUser } from '../../redux/slices/authSlice';
 
 const Navbar = () => {
-  const { isAuthenticated, user, loading } = useSelector(state => state.auth);
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Only dispatch loadUser if the user is authenticated and if user data is not already present
-    if (isAuthenticated && !user) {
-      dispatch(loadUser());
-    }
-  }, [dispatch, isAuthenticated, user]);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate('/login');
   };
 
-  // Show loading spinner or nothing while user data is being fetched
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   if (loading) {
-    return <div>Loading...</div>; // Or a spinner/loading indicator
+    return <div>Loading...</div>;
   }
 
   return (
-    <AppBar position="static" sx={{ padding: 0, margin: 0 }}>
+    <AppBar 
+    position="static" 
+    sx={{ padding: 0, margin: 0 }}>
       <Toolbar sx={{ padding: 0 }}>
-      <Typography 
-          variant="h6" 
-          component={Link} 
-          to="/home" 
-          sx={{ 
-            flexGrow: 1, 
-            textDecoration: 'none', 
+        <Typography
+          variant="h6"
+          component={Link}
+          to="/home"
+          sx={{
+            flexGrow: 1,
+            textDecoration: 'none',
             color: 'inherit',
-            px: 1 
+            px: 1,
           }}
         >
           Home
         </Typography>
-        
+
         {isAuthenticated ? (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* Logout Button */}
             <Button color="inherit" onClick={handleLogout}>
               Logout
             </Button>
-            {/* User Icon Button */}
-            <IconButton 
-              color="inherit" 
-              onClick={() => navigate('/profile')}
-              sx={{ mr: 2 }}
-            >
+            <IconButton color="inherit" onClick={handleOpenMenu}>
               <AccountCircle />
-            </IconButton>            
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
+              sx={{ mt: '45px' }}
+            >
+              <MenuItem
+                onClick={() => {
+                  handleCloseMenu();
+                  navigate('/viewProfile');
+                }}
+              >
+                View Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleCloseMenu();
+                  navigate('/profile');
+                }}
+              >
+                Edit Profile
+              </MenuItem>
+            </Menu>
           </Box>
         ) : (
           <Box>
-            {/* Login and Register Buttons */}
             <Button color="inherit" component={Link} to="/login">
               Login
             </Button>

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Container, Typography, Box, Button, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useSelector(state => state.auth);
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
@@ -19,6 +21,7 @@ const Home = () => {
           <Typography variant="body2" color="textSecondary" gutterBottom>
             Your one-stop solution for managing user authentication and profiles.
           </Typography>
+          {!isAuthenticated ? (
           <Box mt={4}>
             <Button
               variant="contained"
@@ -36,6 +39,7 @@ const Home = () => {
               Login
             </Button>
           </Box>
+          ) : ( null )}
         </Box>
       </Paper>
     </Container>
