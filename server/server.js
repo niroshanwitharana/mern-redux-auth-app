@@ -48,3 +48,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
+
+
+// for test purposes 
+export const server = app; 
