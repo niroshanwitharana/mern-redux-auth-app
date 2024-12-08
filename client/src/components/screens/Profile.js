@@ -30,6 +30,8 @@ const Profile = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
+  const [countdown, setCountdown] = useState(0);
+  const [redirectCancelled, setRedirectCancelled] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -44,8 +46,39 @@ const Profile = () => {
     }
   }, [dispatch, user]);
 
+  useEffect(() => {
+    let timer;
+    if (successMessage && !redirectCancelled) {
+      setCountdown(10);
+      timer = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          if (prevCountdown <= 1) {
+            clearInterval(timer);
+            if (!redirectCancelled) {
+              navigate('/landing');
+            }
+            return 0;
+          }
+          return prevCountdown - 1;
+        });
+      }, 1000);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [successMessage, navigate, redirectCancelled]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Cancel countdown and redirection if user starts typing after successful update
+    if (countdown > 0) {
+      setCountdown(0);
+      setRedirectCancelled(true);
+      setSuccessMessage('');
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value
@@ -93,6 +126,7 @@ const Profile = () => {
           password: formData.password
         })).unwrap();
         setSuccessMessage('Profile updated successfully!');
+        setRedirectCancelled(false);
         setErrors({});
       } catch (error) {
         setErrors({
@@ -183,9 +217,9 @@ const Profile = () => {
               {errors.submit}
             </Typography>
           )}
-          {successMessage && (
+          {successMessage && countdown > 0 && !redirectCancelled && (
             <Typography color="success" variant="body2">
-              {successMessage}
+              Heading back to your Dashboard in {countdown} seconds...
             </Typography>
           )}
           <Button
