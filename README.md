@@ -102,6 +102,24 @@ This will start both the backend server (typically on port 5000) and the React f
 - Start Backend: `npm run start-server`
 - Start Frontend: `npm run start-client`
 
+## 🧪 Running Tests
+
+- Server-Side Tests
+
+- To run all backend tests, navigate to the server directory and run:
+
+- npm test
+
+- Running Specific Test Files
+
+- For example, to run the tests/utils/hash.test.js file:
+
+- npx mocha tests/utils/hash.test.js
+
+- The auth.test.js file in progress uses Supertest for HTTP assertions. Once completed, you can run it similarly:
+
+- npx mocha tests/auth/auth.test.js
+
 ## 🔒 Authentication Flow
 
 - User Registration
