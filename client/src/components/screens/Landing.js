@@ -22,9 +22,6 @@ const Landing = () => {
     dispatch(loadUser());
   }, [dispatch]);
 
-  // const handleLogout = () => {
-  //   dispatch(logoutUser());
-  // };
 
   if (loading) {
     return <Typography>Loading...</Typography>;
