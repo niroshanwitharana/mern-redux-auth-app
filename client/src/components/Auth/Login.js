@@ -69,7 +69,9 @@ const Login = () => {
         })).unwrap();
 
         // Navigate to landing page or dashboard after successful login
+        if(result){
         navigate('/landing');
+        }
       } catch (error) {
         // Handle login error
         setErrors({
