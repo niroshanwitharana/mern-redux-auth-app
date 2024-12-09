@@ -49,6 +49,7 @@ const Profile = () => {
   useEffect(() => {
     let timer;
     if (successMessage && !redirectCancelled) {
+      // Start countdown immediately
       setCountdown(10);
       timer = setInterval(() => {
         setCountdown((prevCountdown) => {
@@ -120,15 +121,19 @@ const Profile = () => {
 
     if (validateForm()) {
       try {
+        // Dispatch update profile action
         await dispatch(updateProfile({
           name: formData.name,
           email: formData.email,
           password: formData.password
         })).unwrap();
+
+        // Set success message and reset redirect state immediately
         setSuccessMessage('Profile updated successfully!');
         setRedirectCancelled(false);
         setErrors({});
       } catch (error) {
+        // Handle error
         setErrors({
           submit: error.message || 'Profile update failed'
         });
@@ -219,7 +224,7 @@ const Profile = () => {
           )}
           {successMessage && countdown > 0 && !redirectCancelled && (
             <Typography color="success" variant="body2">
-              Heading back to your Dashboard in {countdown} seconds...
+              {successMessage} Heading back to your Dashboard in {countdown} seconds...
             </Typography>
           )}
           <Button
