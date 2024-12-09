@@ -15,7 +15,7 @@ const Home = () => {
             Welcome to My App
           </Typography>
           <Typography variant="body1" gutterBottom>
-            This is a dummy homepage designed to showcase the features of our application.
+            This is a dummy homepage designed to showcase the features of my application.
             Navigate through the app to explore registration, login, and profile management functionality.
           </Typography>
           <Typography variant="body2" color="textSecondary" gutterBottom>
