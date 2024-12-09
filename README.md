@@ -58,13 +58,19 @@ npm install
 
 ### 4. Configure Environment Variables
 
-Create a `.env` file in the `server` directory with the following variables:
+Create a `.env` file in the `root` directory with the following variables:
 
 ```env
 PORT=5000
-MONGO_URI=your_mongodb_connection_string
+MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 NODE_ENV=development
+```
+
+Create a `.env` file in the `client` directory with the following variables:
+
+```env
+REACT_APP_API_URL=server_running_url
 ```
 
 #### Generating a JWT Secret
